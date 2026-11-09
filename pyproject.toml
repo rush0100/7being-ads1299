@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "7being-ads1299"
+version = "0.1.0"
+description = "TI ADS1299EEG-FE on MMB0 (USBStyx) plugin for sevenbeing"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "7Being" }]
+dependencies = [
+  "pyusb>=1.2.1",
+  "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+sevenbeing = ["sevenbeing>=0.1.0", "grpcio>=1.60"]
+
+[project.scripts]
+"7being-ads1299-serve" = "sevenbeing_ads1299.serve:main"
+"7being-ads1299-load" = "sevenbeing_ads1299.cli:load_main"
+"7being-ads1299-capture" = "sevenbeing_ads1299.cli:capture_main"
+"7being-ads1299-shell" = "sevenbeing_ads1299.cli:shell_main"
+
+[project.entry-points."sevenbeing.devices"]
+ads1299 = "sevenbeing_ads1299.driver:Ads1299Driver"
+
+[tool.setuptools.packages.find]
+include = ["sevenbeing_ads1299*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
